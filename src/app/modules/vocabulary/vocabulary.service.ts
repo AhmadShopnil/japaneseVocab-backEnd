@@ -22,7 +22,7 @@ const createVocabularyIntoDB = async (payload: any) => {
     pronunciation: payload?.pronunciation,
     adminEmail: payload?.adminEmail,
     whenToSay: payload?.whenToSay,
-    lessonNo: payload?.lessonNo,
+    // lessonNo: payload?.lessonNo,
     lessonId: selectedLesson._id, // Reference Lesson _id
   });
 

@@ -5,7 +5,7 @@ const vocabularySchema = new Schema<TVocabulary>({
   word: { type: String, required: true },
   pronunciation: { type: String, required: true },
   whenToSay: { type: String, required: true },
-  lessonNo: { type: Number, required: true }, // Reference to Lesson model
+  lessonNo: { type: Number }, // Reference to Lesson model
   lessonId: { type: Schema.Types.ObjectId, ref: 'Lesson', required: true }, // Reference to Lesson model
   adminEmail: { type: String, required: true },
 });
