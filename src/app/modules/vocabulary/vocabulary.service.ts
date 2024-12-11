@@ -1,12 +1,39 @@
+import AppError from '../../errors/AppError';
+import { Lesson } from '../lesson/lesson.model';
 import { Vocabulary } from './vocabulary.model';
+import httpStatus from 'http-status';
 
-const createVocabularyIntoDB = async (vocabularyData: any) => {
-  const vocabulary = new Vocabulary(vocabularyData);
+const createVocabularyIntoDB = async (payload: any) => {
+  const selectedLesson = await Lesson.findOne({
+    lessonNo: payload?.lessonNo,
+  });
+
+  //   console.log(payload);
+
+  if (!selectedLesson) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Lesson is not found with providev lessonNo  ',
+    );
+  }
+
+  const vocabulary = new Vocabulary({
+    word: payload?.word,
+    pronunciation: payload?.pronunciation,
+    adminEmail: payload?.adminEmail,
+    whenToSay: payload?.whenToSay,
+    lessonNo: payload?.lessonNo,
+    lessonId: selectedLesson._id, // Reference Lesson _id
+  });
+
   return await vocabulary.save();
 };
 
 const getAllVocabularysFromDB = async () => {
-  return await Vocabulary.find();
+  console.log('from vocoService');
+  const vocabularies = await Vocabulary.find().populate('lessonId');
+  console.log('vocabulary:', vocabularies);
+  return vocabularies;
 };
 
 const updateVocabularyFromDB = async (
