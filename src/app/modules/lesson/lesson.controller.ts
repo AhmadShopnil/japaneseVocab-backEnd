@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { lessonSerices } from './lesson.service';
 
-export const createLesson = async (req: Request, res: Response) => {
+const createLesson = async (req: Request, res: Response) => {
   try {
     const result = await lessonSerices.createLessonIntoDB(req.body);
     // send response to client
@@ -16,7 +16,7 @@ export const createLesson = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllLessons = async (req: Request, res: Response) => {
+const getAllLessons = async (req: Request, res: Response) => {
   try {
     const result = await lessonSerices.getAllLessonsFromDB();
     // send response to client
