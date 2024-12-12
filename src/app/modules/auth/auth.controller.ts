@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { authService } from './auth.service';
+import { CustomRequest } from '../../interface/CustomRequest';
+import { TUserJwtPayload } from './auth.interface';
 
 export const createUser = async (
   req: Request,
@@ -43,7 +45,29 @@ export const login = async (
   }
 };
 
+const getMyProfile = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = req?.user as any;
+
+    const result = await authService.getMyProfileFormDb(user);
+
+    // send response to client
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: 'User profile retrieved successfully',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const authController = {
   createUser,
   login,
+  getMyProfile,
 };

@@ -93,7 +93,22 @@ const loginUser = async ({
   };
 };
 
+const getMyProfileFormDb = async (payload: TUserJwtPayload) => {
+  const isUserExist = await User.isUserExitsByEmail(payload?.email);
+
+  if (!isUserExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Not Found Your Profile');
+  }
+
+  const result = await User.findOne({ email: payload?.email }).select(
+    '-password',
+  );
+  return result;
+  //end
+};
+
 export const authService = {
   registerUserIntoDB,
   loginUser,
+  getMyProfileFormDb,
 };
