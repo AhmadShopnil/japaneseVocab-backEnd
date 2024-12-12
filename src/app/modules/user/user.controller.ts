@@ -62,7 +62,7 @@ const deleteSingleUserById = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: 'User deleted  successfully',
+      message: 'User deleted successfully',
       data: result,
     });
   } catch (error) {}

@@ -4,7 +4,6 @@ import auth from '../../middlewares/auth';
 import { USER_ROLE } from './user.constant';
 
 const router = express.Router();
-
 router.put(
   '/changeRole/:id',
   auth(USER_ROLE.admin),
