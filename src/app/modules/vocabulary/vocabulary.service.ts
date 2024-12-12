@@ -29,27 +29,63 @@ const createVocabularyIntoDB = async (payload: any) => {
   return await vocabulary.save();
 };
 
-const getAllVocabularysFromDB = async () => {
-  console.log('from vocoService');
-  const vocabularies = await Vocabulary.find().populate('lessonId');
-  console.log('vocabulary:', vocabularies);
-  return vocabularies;
-};
-
 const updateVocabularyFromDB = async (
   vocabularyId: string,
   vocabularyData: any,
 ) => {
-  return await Vocabulary.findByIdAndUpdate(vocabularyId, vocabularyData, {
-    new: true,
-  });
+  let updatedVocabularyData = { ...vocabularyData };
+  console.log(vocabularyData);
+
+  // If the lessonNo is included in the vocabularyData, update the lessonId reference
+  if (vocabularyData.lessonNo) {
+    // Find the lesson by the provided lessonNo
+    const selectedLesson = await Lesson.findOne({
+      lessonNo: vocabularyData.lessonNo,
+    });
+
+    // if (!selectedLesson) {
+    //   throw new AppError(
+    //     httpStatus.NOT_FOUND,
+    //     "Lesson not found with the provided lessonNo"
+    //   );
+    // }
+
+    if (selectedLesson) {
+      // Update the lessonId in the vocabularyData
+      updatedVocabularyData.lessonId = selectedLesson._id;
+    }
+  }
+
+  // Update the vocabulary document in the database with the updated data
+  return await Vocabulary.findByIdAndUpdate(
+    vocabularyId,
+    updatedVocabularyData,
+    {
+      new: true, // To return the updated document
+    },
+  );
 };
+
+const getAllVocabularysFromDB = async () => {
+  const vocabularies = await Vocabulary.find().populate('lessonId');
+  // console.log('vocabulary:', vocabularies);
+  return vocabularies;
+};
+
+// const updateVocabularyFromDB = async (
+//   vocabularyId: string,
+//   vocabularyData: any,
+// ) => {
+//   return await Vocabulary.findByIdAndUpdate(vocabularyId, vocabularyData, {
+//     new: true,
+//   });
+// };
 
 const deleteVocabularyFromDB = async (vocabularyId: string) => {
   return await Vocabulary.findByIdAndDelete(vocabularyId);
 };
 const getSingleVocabularyFromDB = async (vocabularyId: string) => {
-  return await Vocabulary.findById({ _id: vocabularyId });
+  return await Vocabulary.findById({ _id: vocabularyId }).populate('lessonId');
 };
 
 export const vocabularySerice = {

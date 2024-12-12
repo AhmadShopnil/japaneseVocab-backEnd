@@ -43,9 +43,14 @@ const deleteLessonFromDB = async (lessonId: string) => {
   return await Lesson.findByIdAndDelete(lessonId);
 };
 
-export const lessonSerices = {
+const getSingleLessonFromDB = async (lessonId: string) => {
+  return await Lesson.findById(lessonId);
+};
+
+export const lessonServices = {
   getAllLessonsFromDB,
   updateLessonFromDB,
   deleteLessonFromDB,
   createLessonIntoDB,
+  getSingleLessonFromDB,
 };

@@ -3,6 +3,8 @@ import { vocabularySerice } from './vocabulary.service';
 
 const createVocabulary = async (req: Request, res: Response) => {
   try {
+    // console.log('vocabulary:', req.body);
+
     const result = await vocabularySerice.createVocabularyIntoDB(req.body);
     // send response to client
     res.status(201).json({

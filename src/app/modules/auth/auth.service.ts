@@ -65,7 +65,7 @@ const loginUser = async ({
   //   console.log('from auth service', isPasswordMatch);
 
   if (!isPasswordMatch) {
-    throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
+    throw new AppError(httpStatus.FORBIDDEN, 'Password  not matched');
   }
 
   const jwtPayload = {

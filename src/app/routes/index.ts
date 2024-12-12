@@ -20,7 +20,7 @@ const moduleRoutes = [
     route: lessonRoutes,
   },
   {
-    path: '/vocabulary',
+    path: '/vocabularies',
     route: vocabularyRoutes,
   },
 ];

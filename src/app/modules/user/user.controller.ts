@@ -33,8 +33,12 @@ const getSingleUserById = async (req: Request, res: Response) => {
 };
 const changeUserRole = async (req: Request, res: Response) => {
   try {
-    const { userId, role } = req.body;
-    const result = await userService.changeUserRoleIntoDB(userId, role);
+    const { id } = req.params;
+    const { role } = req.body;
+
+    console.log(id);
+    console.log(role);
+    const result = await userService.changeUserRoleIntoDB(id, role);
     // send response to client
     res.status(201).json({
       success: true,

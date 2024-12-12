@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 const getALUsersFromDB = async () => {
   const result = await User.find().select('-password');
 
-  console.log('from user service', result);
+  // console.log('from user service', result);
 
   if (result?.length === 0) {
     throw new AppError(

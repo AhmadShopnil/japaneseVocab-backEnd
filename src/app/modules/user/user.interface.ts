@@ -6,6 +6,7 @@ export interface TUserInput {
   email: string;
   password: string;
   role?: 'user' | 'admin';
+  profileImage?: string;
 }
 
 export interface TUserResponse {
@@ -14,6 +15,7 @@ export interface TUserResponse {
   email: string;
   password: string;
   role: 'user' | 'admin';
+  profileImage?: string;
   createdAt?: string;
   updatedAt?: string;
 }

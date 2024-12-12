@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { lessonSerices } from './lesson.service';
+import { lessonServices } from './lesson.service';
 
 const createLesson = async (req: Request, res: Response) => {
   try {
-    const result = await lessonSerices.createLessonIntoDB(req.body);
+    const result = await lessonServices.createLessonIntoDB(req.body);
     // send response to client
     res.status(201).json({
       success: true,
@@ -18,7 +18,7 @@ const createLesson = async (req: Request, res: Response) => {
 
 const getAllLessons = async (req: Request, res: Response) => {
   try {
-    const result = await lessonSerices.getAllLessonsFromDB();
+    const result = await lessonServices.getAllLessonsFromDB();
     // send response to client
     res.status(201).json({
       success: true,
@@ -34,7 +34,7 @@ const getAllLessons = async (req: Request, res: Response) => {
 const updateLesson = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const result = await lessonSerices.updateLessonFromDB(id, req.body);
+    const result = await lessonServices.updateLessonFromDB(id, req.body);
     // send response to client
     res.status(201).json({
       success: true,
@@ -50,7 +50,7 @@ const updateLesson = async (req: Request, res: Response) => {
 const deleteLesson = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const result = await lessonSerices.deleteLessonFromDB(id);
+    const result = await lessonServices.deleteLessonFromDB(id);
     // send response to client
     res.status(201).json({
       success: true,
@@ -63,9 +63,26 @@ const deleteLesson = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleLesson = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await lessonServices.getSingleLessonFromDB(id);
+    // send response to client
+    res.status(201).json({
+      success: true,
+      statusCode: 201,
+      message: 'Lesson get successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 export const lessonController = {
   getAllLessons,
   updateLesson,
   deleteLesson,
   createLesson,
+  getSingleLesson,
 };
