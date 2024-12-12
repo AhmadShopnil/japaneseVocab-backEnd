@@ -26,16 +26,16 @@ const changeUserRoleIntoDB = async (userId: string, role: string) => {
 };
 
 const deleteSignleByIdFormDB = async ({ id }: { id: string }) => {
-  // checking for is bike exist or not and send response
+  // checking for is user exist or not and send response
   const isExistUser = await User.findById({ _id: id });
   if (!isExistUser) {
     //   throw new AppError(httpStatus.NOT_FOUND, 'User Not found to delete');
   }
 
-  // deleting bike form database
-  const deleteBike = await User.findByIdAndDelete({ _id: id });
+  // deleting user form database
+  const deleteUser = await User.findByIdAndDelete({ _id: id });
 
-  if (!deleteBike) {
+  if (!deleteUser) {
     //   throw new AppError(httpStatus.NOT_MODIFIED, 'User delete faild');
   }
 
