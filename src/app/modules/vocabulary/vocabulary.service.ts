@@ -34,7 +34,7 @@ const updateVocabularyFromDB = async (
   vocabularyData: any,
 ) => {
   let updatedVocabularyData = { ...vocabularyData };
-  console.log(vocabularyData);
+  // console.log(vocabularyData);
 
   // If the lessonNo is included in the vocabularyData, update the lessonId reference
   if (vocabularyData.lessonNo) {
@@ -42,13 +42,6 @@ const updateVocabularyFromDB = async (
     const selectedLesson = await Lesson.findOne({
       lessonNo: vocabularyData.lessonNo,
     });
-
-    // if (!selectedLesson) {
-    //   throw new AppError(
-    //     httpStatus.NOT_FOUND,
-    //     "Lesson not found with the provided lessonNo"
-    //   );
-    // }
 
     if (selectedLesson) {
       // Update the lessonId in the vocabularyData

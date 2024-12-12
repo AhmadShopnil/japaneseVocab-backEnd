@@ -1,5 +1,6 @@
+import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
-import { Vocabulary } from '../vocabulary/vocabulary.model';
+import httpStatus from 'http-status';
 import { Lesson } from './lesson.model';
 
 const createLessonIntoDB = async (lessonData: any) => {
@@ -44,7 +45,28 @@ const deleteLessonFromDB = async (lessonId: string) => {
 };
 
 const getSingleLessonFromDB = async (lessonId: string) => {
-  return await Lesson.findById(lessonId);
+  const lesson = await Lesson.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(lessonId) },
+    },
+    {
+      $lookup: {
+        from: 'vocabularies',
+        localField: '_id',
+        foreignField: 'lessonId',
+        as: 'vocabularies',
+      },
+    },
+  ]);
+
+  if (lesson.length == 0) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Not Found any lesson from database',
+    );
+  }
+
+  return lesson[0];
 };
 
 export const lessonServices = {
